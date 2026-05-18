@@ -1,5 +1,5 @@
 === SmartFrame Images ===
-Contributors: SmartFrame, Albano Toska
+Contributors: SmartFrame, albanotoska
 Tags: images, image library, image search, image embed, publishers
 Requires at least: 5.9
 Stable tag: 1.3.0
@@ -85,6 +85,10 @@ Yes. The SmartFrame Cloud is purpose-built for large-scale publishing. The infra
 = Does the plugin work with Gutenberg and Classic Editor? =
 
 Yes. SmartFrame Images works natively with both the Gutenberg block editor and the Classic Editor, with no additional configuration required.
+
+= Why is my featured image not showing as a SmartFrame image? =
+
+In some cases, a theme you have enabled could conflict with the SmartFrame Images plugin and render the featured SmartFrame images as a JPEG or WebP image. If you experience this issue, please get in touch so we can investigate.
 
 = How is this different from just uploading images to WordPress? =
 
