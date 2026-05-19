@@ -7,6 +7,7 @@
 	"main": "build/index.js",
 	"files": [
 		"admin",
+		"assets",
 		"src",
 		"build",
 		"includes",
@@ -31,7 +32,7 @@
 		"format:css": "wp-scripts lint-style 'src/**/*.{css,scss}' 'admin/**/*.{css,scss}' --fix",
 		"format-check": "wp-scripts format --check src admin",
 		"lint:css": "wp-scripts lint-style 'src/**/*.{css,scss}' 'admin/**/*.{css,scss}'",
-		"lint:js": "wp-scripts lint-js src admin",
+		"lint:js": "wp-scripts lint-js src admin assets/js",
 		"test": "npm-run-all lint:js lint:css format-check build",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
@@ -59,7 +60,9 @@
 			"smartframe_preview_vars": "readonly",
 			"tinymce": "readonly",
 			"jQuery": "readonly",
-			"NodeFilter": "readonly"
+			"NodeFilter": "readonly",
+			"smartframeImageData": "readonly",
+			"smartframeNoticeVars": "readonly"
 		},
 		"rules": {
 			"camelcase": "off"

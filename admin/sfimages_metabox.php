@@ -14,6 +14,8 @@ class Smartframe_Metabox {
 		add_filter('admin_post_thumbnail_html', [$this, 'smartframe_metabox_classic_editor_container'], 10, 2);
 		add_action('save_post', [$this, 'save_smartframe_metabox_classic_editor'], 10);
 		add_action('admin_enqueue_scripts', [$this, 'smartframe_classic_editor_scripts']);
+
+		add_action('wp_enqueue_scripts', [$this, 'smartframe_pass_data_to_frontend']);
 	}
 
 	public function add_gutenberg_save_hook() {
@@ -237,6 +239,28 @@ class Smartframe_Metabox {
 
 		$posts = get_posts($args);
 		return ! empty($posts) ? intval($posts[0]) : 0;
+	}
+
+	public function smartframe_pass_data_to_frontend() {
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		$post_id = get_queried_object_id();
+		$smartframe_enabled = intval(get_post_meta($post_id, 'smartframe_featured_image_meta', true));
+
+		if ( $smartframe_enabled === 1 ) {
+			$thumb_id = get_post_thumbnail_id($post_id);
+			$thumb_url = wp_get_attachment_url($thumb_id);
+			$embed_code = get_post_meta($post_id, 'smartframe_embed_code', true);
+
+			wp_enqueue_script('smartframe-frontend-replacer', plugin_dir_url(__DIR__) . 'assets/js/sfimages-featured-image-replacer.js', [], SMARTFRAME_VERSION, true);
+
+			wp_localize_script('smartframe-frontend-replacer', 'smartframeImageData', [
+				'imageUrl'  => $thumb_url,
+				'embedHtml' => $embed_code
+			]);
+		}
 	}
 }
 new Smartframe_Metabox();

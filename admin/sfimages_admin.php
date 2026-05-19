@@ -13,6 +13,9 @@ class Smartframe_Admin {
 		add_action('media_buttons', [$this, 'smartframe_add_media_button']);
 		add_action('wp_ajax_smartframe_render_shortcode_preview', [$this, 'smartframe_render_shortcode_preview_ajax']);
 		add_action('admin_enqueue_scripts', [$this, 'smartframe_enqueue_classic_editor_preview_scripts']);
+		add_action('admin_notices', [$this, 'smartframe_api_key_admin_notice']);
+		add_action('wp_ajax_smartframe_dismiss_api_notice', [$this, 'smartframe_dismiss_api_notice_ajax']);
+		add_action('admin_enqueue_scripts', [$this, 'smartframe_enqueue_admin_notice_scripts']);
 	}
 
 	public function smartframe_register_settings_menu() {
@@ -26,6 +29,7 @@ class Smartframe_Admin {
 
 		if (empty($sanitized_input)) {
 			delete_option('smartframe_api_key_status');
+			delete_metadata('user', 0, 'smartframe_api_notice_dismissed', '', true);
 			return $sanitized_input;
 		}
 
@@ -279,6 +283,80 @@ class Smartframe_Admin {
         .sf-preview-error { color: #d63638; }
     ';
 		wp_add_inline_style('editor-buttons', $css);
+	}
+	public function smartframe_api_key_admin_notice() {
+		if ( ! current_user_can('manage_options') ) {
+			return;
+		}
+
+		$api_key = get_option('smartframe_api_settings');
+		if ( ! empty($api_key) ) {
+			return;
+		}
+
+		$user_id = get_current_user_id();
+		if ( get_user_meta($user_id, 'smartframe_api_notice_dismissed', true) ) {
+			return;
+		}
+
+		$settings_url = admin_url('options-general.php?page=smartframe_admin_settings');
+		?>
+		<div class="notice notice-warning is-dismissible" id="smartframe-api-notice">
+			<p>
+				<strong><?php esc_html_e('SmartFrame Images:', 'smartframe-images'); ?></strong>
+				<?php esc_html_e('Please connect your API key to start using the plugin.', 'smartframe-images'); ?>
+			</p>
+			<p>
+				<a href="<?php echo esc_url($settings_url); ?>" class="button button-primary">
+					<?php esc_html_e('Connect API Key', 'smartframe-images'); ?>
+				</a>
+			</p>
+		</div>
+		<?php
+	}
+
+	public function smartframe_dismiss_api_notice_ajax() {
+		check_ajax_referer('smartframe_dismiss_api_nonce', 'nonce');
+
+		if ( current_user_can('manage_options') ) {
+			$user_id = get_current_user_id();
+			update_user_meta($user_id, 'smartframe_api_notice_dismissed', true);
+			wp_send_json_success();
+		}
+
+		wp_send_json_error();
+	}
+
+	public function smartframe_enqueue_admin_notice_scripts() {
+		if ( ! current_user_can('manage_options') ) {
+			return;
+		}
+
+		if ( ! empty(get_option('smartframe_api_settings')) ) {
+			return;
+		}
+
+		$user_id = get_current_user_id();
+		if ( get_user_meta($user_id, 'smartframe_api_notice_dismissed', true) ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'smartframe-notice-script',
+			plugin_dir_url(__DIR__) . 'admin/assets/js/sfimages-admin-notice.js',
+			[],
+			SMARTFRAME_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'smartframe-notice-script',
+			'smartframeNoticeVars',
+			[
+				'ajaxurl' => admin_url('admin-ajax.php'),
+				'nonce'   => wp_create_nonce('smartframe_dismiss_api_nonce'),
+			]
+		);
 	}
 }
 

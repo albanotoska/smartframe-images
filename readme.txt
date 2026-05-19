@@ -2,7 +2,7 @@
 Contributors: SmartFrame, albanotoska
 Tags: images, image library, image search, image embed, publishers
 Requires at least: 5.9
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 Tested up to: 6.9
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -172,3 +172,7 @@ To compile the source code yourself, you will need Node.js and npm installed.
 = 1.3.0 =
 * Added support for RSS feeds and aggregators – standard image thumbnails are now served in place of interactive embeds for feed readers and content aggregators
 * Migrated Classic Editor shortcode handling to native WordPress TinyMCE view modules for improved compatibility and stability
+
+= 1.4.0 =
+* Added a dismissible admin notice upon activation to help users quickly connect their API key.
+* Enhanced featured image detection with a JavaScript fallback, ensuring better compatibility with page builders and custom themes that bypass standard WordPress image filters.
