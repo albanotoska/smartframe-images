@@ -8,7 +8,7 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Replace all of your images with SmartFrame Image, a free and fast alternative for embedding images.
+Built for publishers: search, embed, and publish from a library of 55 million+ free editorial images, all without leaving WordPress.
 
 ### Third-Party Service Reliance ###
 This plugin relies on the SmartFrame Cloud service to fetch and embed images.
