@@ -104,11 +104,6 @@ Yes. SmartFrame Technologies Ltd is a GDPR-compliant business based in Europe. Y
 3. The plugin gives you access to the full SmartFrame Images library, across Sports, News and Entertainment to Lifestyle & Culture and Science
 4. Images can be viewed altogether or in individual events
 5. Images can be sorted by date
-6. Adding a SmartFrame images is easy. Just add a new block and either select or search for SmartFrame
-7. You can search by keyword to quickly find images
-8. Once you have found an image you would like to embed, just click 'Insert into post'
-9. You can sort images by date
-10. Images are grouped into events for ease of browsing and image discovery
 
 == Development and Source Code ==
 
