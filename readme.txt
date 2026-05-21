@@ -101,7 +101,7 @@ Yes. SmartFrame Technologies Ltd is a GDPR-compliant business based in Europe. Y
 == Screenshots ==
 1. To add an image, create a new post, add a new block and either search for SmartFrame or select it from the options that appear
 2. Adding images is easy – just search for an image using one or more keywords, select the image you would like to use and add it to your post by clicking ‘Insert into post’
-3. The plugin gives you access to the full SmartFrame Images library, across Sports, News and Entertainment to Lifestyle & Culture and Science
+3. The plugin gives you access to the full SmartFrame Images library, across sports, news, entertainment, lifestyle, culture and science
 4. Images can be viewed altogether or in individual events
 5. Images can be sorted by date
 
