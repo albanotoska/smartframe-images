@@ -16,6 +16,7 @@ class Smartframe_Metabox {
 		add_action('admin_enqueue_scripts', [$this, 'smartframe_classic_editor_scripts']);
 
 		add_action('wp_enqueue_scripts', [$this, 'smartframe_pass_data_to_frontend']);
+		add_filter('get_post_metadata', [$this, 'smartframe_old_metadata_migration'], 10, 4);
 	}
 
 	public function add_gutenberg_save_hook() {
@@ -261,6 +262,33 @@ class Smartframe_Metabox {
 				'embedHtml' => $embed_code
 			]);
 		}
+	}
+
+	public function smartframe_old_metadata_migration( $value, $object_id, $meta_key, $single ) {
+		static $is_migrating = false;
+		if ( $is_migrating ) {
+			return $value;
+		}
+
+		$keys_to_migrate = [
+			'smartframe_featured_image_meta' => 'sfio_featured_image',
+			'smartframe_embed_code'          => 'sfio_embed_code',
+			'_smartframe_sideloaded_image'   => '_sfio_sideloaded_image',
+		];
+
+		if ( isset( $keys_to_migrate[ $meta_key ] ) ) {
+			$old_key = $keys_to_migrate[ $meta_key ];
+			$old_value = get_post_meta( $object_id, $old_key, true );
+
+			if ( $old_value !== '' ) {
+				$is_migrating = true;
+				update_post_meta( $object_id, $meta_key, $old_value );
+				delete_post_meta( $object_id, $old_key );
+				$is_migrating = false;
+				return $single ? $old_value : [ $old_value ];
+			}
+		}
+		return $value;
 	}
 }
 new Smartframe_Metabox();

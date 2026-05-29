@@ -2,8 +2,8 @@
 Contributors: SmartFrame, albanotoska
 Tags: images, image library, image search, image embed, publishers
 Requires at least: 5.9
-Stable tag: 1.4.0
-Tested up to: 6.9
+Stable tag: 1.4.2
+Tested up to: 7.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,8 +34,11 @@ Search, embed, and publish from a library of over 55 million free-to-embed image
 
 == SmartFrame Images: Embed editorial images for free in WordPress ==
 SmartFrame Images gives your editorial team access to over 55 million images, searchable and embeddable directly from inside the WordPress editor.
+
 No downloads. No uploads. No switching between platforms. Search for an image, click to embed, and publish – the entire workflow happens inside the CMS your team already uses.
+
 The plugin integrates the SmartFrame Images library and secure embed technology into WordPress, replacing the slow default workflow of sourcing images on external platforms, downloading files, and re-uploading them to your site.
+
 For publishers managing high volumes of editorial content, that means faster turnaround, a cleaner workflow, and images that are protected the moment they go live.
 
 == Embed over 55 million images – at no cost ==
@@ -180,5 +183,13 @@ To compile the source code yourself, you will need Node.js and npm installed.
 * Migrated Classic Editor shortcode handling to native WordPress TinyMCE view modules for improved compatibility and stability
 
 = 1.4.0 =
-* Added a dismissible admin notice upon activation to help users quickly connect their API key.
-* Enhanced featured image detection with a JavaScript fallback, ensuring better compatibility with page builders and custom themes that bypass standard WordPress image filters.
+* Added a dismissible admin notice upon activation to help users quickly connect their API key
+* Enhanced featured image detection with a JavaScript fallback, ensuring better compatibility with page builders and custom themes that bypass standard WordPress image filters
+
+= 1.4.1 =
+* Implemented an automated background data migration to seamlessly upgrade legacy SmartFrame metadata
+* Fixed a metadata issue with shortcode mode of featured image
+* Verified and tested up to WordPress 7.0
+
+= 1.4.2 =
+* Implemented an automated background check for legacy API keys to prevent users from needing to log in again

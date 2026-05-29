@@ -16,6 +16,7 @@ class Smartframe_Admin {
 		add_action('admin_notices', [$this, 'smartframe_api_key_admin_notice']);
 		add_action('wp_ajax_smartframe_dismiss_api_notice', [$this, 'smartframe_dismiss_api_notice_ajax']);
 		add_action('admin_enqueue_scripts', [$this, 'smartframe_enqueue_admin_notice_scripts']);
+		add_action('admin_init', [$this, 'smartframe_migrate_old_api_options']);
 	}
 
 	public function smartframe_register_settings_menu() {
@@ -357,6 +358,19 @@ class Smartframe_Admin {
 				'nonce'   => wp_create_nonce('smartframe_dismiss_api_nonce'),
 			]
 		);
+	}
+
+	public function smartframe_migrate_old_api_options() {
+		$new_api_key = get_option( 'smartframe_api_settings' );
+
+		if ( empty( $new_api_key ) ) {
+			$old_api_key = get_option( 'sfimages_api_settings' );
+
+			if ( ! empty( $old_api_key ) ) {
+				update_option( 'smartframe_api_settings', $old_api_key );
+				delete_option( 'sfimages_api_settings' );
+			}
+		}
 	}
 }
 

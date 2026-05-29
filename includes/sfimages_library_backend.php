@@ -195,7 +195,7 @@ class Smartframe_Featured_Image_Replacement {
 		global $post;
 		$post_id                       = $post->ID;
 		$html                          = '';
-			$smartframe_enabled_settings = intval(get_post_meta($post_id, 'smartframe_featured_image', true));
+			$smartframe_enabled_settings = intval(get_post_meta($post_id, 'smartframe_featured_image_meta', true));
 		if ($smartframe_enabled_settings === 1) {
 			$raw_html     = '';
 			$smartframe_url = get_post_meta($post_id, 'smartframe_embed_code', true);
