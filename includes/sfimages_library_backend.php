@@ -15,6 +15,7 @@ class Smartframe_Featured_Image_Replacement {
 		add_filter('tiny_mce_before_init', [$this, 'smartframe_add_smartframe_to_tinymce'], 99);
 		add_shortcode('smartframe_images_embed', [$this, 'smartframe_embed_shortcode_mode']);
 		add_shortcode('smartframe_featured_image', [$this, 'smartframe_featured_shortcode_mode']);
+		add_filter('plugin_action_links_' . plugin_basename(SMARTFRAME_PLUGIN_DIR . 'smartframe_images.php'), [$this, 'smartframe_settings_action_links']);
 	}
 
 	public function smartframe_pass_settings_to_editor() {
@@ -64,19 +65,7 @@ class Smartframe_Featured_Image_Replacement {
 	}
 
 	public function smartframe_plugin_block_init() {
-		if (function_exists('wp_register_block_types_from_metadata_collection')) {
-			wp_register_block_types_from_metadata_collection(SMARTFRAME_PLUGIN_DIR . '/build', SMARTFRAME_PLUGIN_DIR . '/build/blocks-manifest.php');
-			return;
-		}
-
-		if (function_exists('wp_register_block_metadata_collection')) {
-			wp_register_block_metadata_collection(SMARTFRAME_PLUGIN_DIR . '/build', SMARTFRAME_PLUGIN_DIR . '/build/blocks-manifest.php');
-		}
-
-		$manifest_data = require SMARTFRAME_PLUGIN_DIR . '/build/blocks-manifest.php';
-		foreach (array_keys($manifest_data) as $block_type) {
-			register_block_type(SMARTFRAME_PLUGIN_DIR . "/build/{$block_type}");
-		}
+		register_block_type( SMARTFRAME_PLUGIN_DIR . 'build/smartframe-images-block' );
 	}
 
 	public function smartframe_enqueue_main_embed() {
@@ -244,6 +233,13 @@ class Smartframe_Featured_Image_Replacement {
 		}
 
 		return false;
+	}
+
+	public function smartframe_settings_action_links( $links ) {
+		$settings_url = admin_url( 'options-general.php?page=smartframe_admin_settings' );
+		$settings_link = '<a href="' . esc_url( $settings_url ) . '">' . __( 'Settings', 'smartframe-images' ) . '</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
 	}
 }
 

@@ -3,7 +3,7 @@
  * Plugin Name:       SmartFrame Images
  * Plugin URI:        https://smartframe.io/help-center/
  * Description:       Browse, embed, and publish over 55 million free-to-embed images – without leaving WordPress.
- * Version:           1.4.2
+ * Version:           1.4.5
  * Author:            SmartFrame Technologies Ltd
  * Author URI:        https://smartframe.com/
  * License:           GPL-2.0+
@@ -26,7 +26,7 @@ if ( ! defined('ABSPATH')) {
 define('SMARTFRAME_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SMARTFRAME_INCLUDES_DIR', SMARTFRAME_PLUGIN_DIR . 'includes');
 define('SMARTFRAME_ADMIN_DIR', SMARTFRAME_PLUGIN_DIR . 'admin');
-define('SMARTFRAME_VERSION', '1.4.2');
+define('SMARTFRAME_VERSION', '1.4.5');
 
 
 // Include other necessary plugin files.

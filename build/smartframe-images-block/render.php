@@ -34,10 +34,13 @@ if ( $smartframe_library->smartframe_is_aggregator_or_bot() ) {
 <div <?php echo wp_kses_data( $smartframe_wrapper_attributes ); ?>>
 	<?php
 	if ( ! empty( $attributes['embedCode'] ) ) {
+		$smartframe_clean_embed_code = str_replace( 'https://static.smartframe.io/embed.js', '', $attributes['embedCode'] );
+		$smartframe_clean_embed_code = preg_replace( '/<script\b[^>]*>.*?<\/script>/is', '', $smartframe_clean_embed_code );
+
 		$smartframe_allowed_html = str_replace(
 			'<smartframe-embed',
 			'<smartframe-embed class="smartframe_wp_element"',
-			$attributes['embedCode']
+			$smartframe_clean_embed_code
 		);
 
 		echo wp_kses( $smartframe_allowed_html, [

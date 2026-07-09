@@ -1217,82 +1217,93 @@ export function SmartframeLibrary( { onClose, onInsert, apiKey } ) {
 										! noResultsFound && (
 											<>
 												<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-													{ events.map( ( event ) => (
-														<div
-															key={ event.id }
-															onClick={ () =>
-																handleEventClick(
-																	event
-																)
-															}
-															onKeyDown={ (
-																e
-															) => {
-																if (
-																	e.key ===
-																		'Enter' ||
-																	e.key ===
-																		' '
-																) {
+													{ events.map( ( event ) => {
+														const displayCategory =
+															event.categories?.find(
+																( cat ) =>
+																	selectedCategory &&
+																	selectedCategory !==
+																		'all' &&
+																	cat.toLowerCase() ===
+																		selectedCategory.toLowerCase()
+															) ||
+															event
+																.categories?.[ 0 ];
+														return (
+															<div
+																key={ event.id }
+																onClick={ () =>
 																	handleEventClick(
 																		event
-																	);
+																	)
 																}
-															} }
-															role="button"
-															tabIndex={ 0 }
-															className="relative rounded-lg overflow-hidden group cursor-pointer sfimages-event-holder shadow-lg aspect-4/3"
-														>
-															<div
-																className={
-																	'block w-full h-full'
-																}
+																onKeyDown={ (
+																	e
+																) => {
+																	if (
+																		e.key ===
+																			'Enter' ||
+																		e.key ===
+																			' '
+																	) {
+																		handleEventClick(
+																			event
+																		);
+																	}
+																} }
+																role="button"
+																tabIndex={ 0 }
+																className="relative rounded-lg overflow-hidden group cursor-pointer sfimages-event-holder shadow-lg aspect-4/3"
 															>
-																<SmartFrameComponent
-																	customerId={
-																		event.customer
+																<div
+																	className={
+																		'block w-full h-full'
 																	}
-																	imageId={
-																		event.folderCoverImagePhotoId
-																	}
-																	width={
-																		event.folderCoverImageWidth
-																	}
-																	height={
-																		event.folderCoverImageHeight
-																	}
-																/>
-															</div>
-															<div className="absolute top-0 left-0 w-full h-full event-gradient-overlay z-10"></div>
-															<div className="absolute top-0 left-0 w-full h-full p-2 flex flex-col justify-between text-white z-20">
-																<p className="text-base text-white">
-																	{
-																		event.title
-																	}
-																</p>
-																<div className="flex justify-between items-end w-full">
-																	<span className="text-base font-medium">
+																>
+																	<SmartFrameComponent
+																		customerId={
+																			event.customer
+																		}
+																		imageId={
+																			event.folderCoverImagePhotoId
+																		}
+																		width={
+																			event.folderCoverImageWidth
+																		}
+																		height={
+																			event.folderCoverImageHeight
+																		}
+																	/>
+																</div>
+																<div className="absolute top-0 left-0 w-full h-full event-gradient-overlay z-10"></div>
+																<div className="absolute top-0 left-0 w-full h-full p-2 flex flex-col justify-between text-white z-20">
+																	<p className="text-base text-white">
 																		{
-																			event.totalMediaCount
-																		}{ ' ' }
-																		{ event.totalMediaCount ===
-																		1
-																			? 'Image'
-																			: 'Images' }
-																	</span>
-																	{ event
-																		.categories[ 0 ] && (
-																		<span className="text-base bg-black/50 px-2 py-1 rounded-md capitalize">
+																			event.title
+																		}
+																	</p>
+																	<div className="flex justify-between items-end w-full">
+																		<span className="text-base font-medium">
 																			{
-																				event
-																					.categories[ 0 ]
-																			}
+																				event.totalMediaCount
+																			}{ ' ' }
+																			{ event.totalMediaCount ===
+																			1
+																				? 'Image'
+																				: 'Images' }
 																		</span>
-																	) }
+																		{ displayCategory && (
+																			<span className="text-base bg-black/50 px-2 py-1 rounded-md capitalize">
+																				{
+																					displayCategory
+																				}
+																			</span>
+																		) }
+																	</div>
 																</div>
 															</div>
-														</div>
-													) ) }
+														);
+													} ) }
 												</div>
 												<div className="flex justify-center items-center py-6">
 													<Button

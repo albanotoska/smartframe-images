@@ -6,9 +6,9 @@ if ( ! defined('ABSPATH')) {
 class Smartframe_Metabox {
 	public function __construct() {
 		//Gutenberg
-		add_action('init', [$this, 'smartframe_register_gutenberg_meta']);
+		add_action('init', [$this, 'smartframe_register_gutenberg_meta'], 20);
+		add_action('init', [$this, 'add_gutenberg_save_hook'], 20);
 		add_action('enqueue_block_editor_assets', [$this, 'smartframe_gutenberg_scripts']);
-		$this->add_gutenberg_save_hook();
 
 		//Classic Editor
 		add_filter('admin_post_thumbnail_html', [$this, 'smartframe_metabox_classic_editor_container'], 10, 2);
@@ -29,49 +29,57 @@ class Smartframe_Metabox {
 	}
 
 	public function smartframe_register_gutenberg_meta() {
-		register_post_meta(
-			'post',
-			'smartframe_featured_image_meta',
-			[
-				'show_in_rest'  => true,
-				'single'        => true,
-				'type'          => 'boolean',
-				'default'       => false,
-				'auth_callback' => function () {
-					return current_user_can('edit_posts');
-				},
-			]
-		);
-		register_post_meta(
-			'post',
-			'smartframe_embed_code',
-			[
-				'show_in_rest'      => true,
-				'single'            => true,
-				'type'              => 'string',
-				'default'           => '',
-				'auth_callback'     => function () {
-					return current_user_can('edit_posts');
-				},
-				'sanitize_callback' => function ($meta_value) {
-					$allowed_tags = [
-						'smartframe-embed' => [
-							'customer-id' => true,
-							'image-id'    => true,
-							'v'           => true,
-							'style'       => true,
-						],
-					];
-					return wp_kses($meta_value, $allowed_tags);
-				},
-			]
-		);
+		$post_types = get_post_types(['public' => true], 'names');
+		foreach ( $post_types as $post_type ) {
+			if ( ! post_type_supports($post_type, 'thumbnail') ) {
+				continue;
+			}
+
+			register_post_meta(
+				$post_type,
+				'smartframe_featured_image_meta',
+				[
+					'show_in_rest'  => true,
+					'single'        => true,
+					'type'          => 'boolean',
+					'default'       => false,
+					'auth_callback' => function ( $allowed, $meta_key, $post_id ) {
+						return current_user_can( 'edit_post', $post_id );
+					},
+				]
+			);
+			register_post_meta(
+				$post_type,
+				'smartframe_embed_code',
+				[
+					'show_in_rest'      => true,
+					'single'            => true,
+					'type'              => 'string',
+					'default'           => '',
+					'auth_callback'     => function ( $allowed, $meta_key, $post_id ) {
+						return current_user_can( 'edit_post', $post_id );
+					},
+					'sanitize_callback' => function ($meta_value) {
+						$allowed_tags = [
+							'smartframe-embed' => [
+								'customer-id' => true,
+								'image-id'    => true,
+								'v'           => true,
+								'style'       => true,
+							],
+						];
+						return wp_kses($meta_value, $allowed_tags);
+					},
+				]
+			);
+		}
 	}
 
 	public function save_gutenberg_featured_image($post, $request) {
 		$post_ID = $post->ID;
 		$meta    = $request->get_param('meta');
-		if ( ! isset($meta['smartframe_featured_image_meta']) && ! isset($meta['smartframe_embed_code']) ) {
+
+		if ( ! is_array($meta) || ( ! isset($meta['smartframe_featured_image_meta']) && ! isset($meta['smartframe_embed_code']) ) ) {
 			return;
 		}
 		$is_enabled = isset($meta['smartframe_featured_image_meta']) ? (bool) $meta['smartframe_featured_image_meta'] : false;

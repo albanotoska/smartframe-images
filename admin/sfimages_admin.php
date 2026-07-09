@@ -140,9 +140,6 @@ class Smartframe_Admin {
 	}
 
 	public function smartframe_admin_scripts($hook) {
-		if ( $hook !== 'settings_page_smartframe_admin_settings' ) {
-			return;
-		}
 		wp_enqueue_style('sfimages-admin-style', plugin_dir_url(__FILE__) . 'assets/css/sfimages_admin.css', [], SMARTFRAME_VERSION);
 	}
 

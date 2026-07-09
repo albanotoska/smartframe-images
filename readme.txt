@@ -2,7 +2,7 @@
 Contributors: SmartFrame, albanotoska
 Tags: images, image library, image search, image embed, publishers
 Requires at least: 5.9
-Stable tag: 1.4.2
+Stable tag: 1.4.5
 Tested up to: 7.0
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -34,11 +34,8 @@ Search, embed, and publish from a library of over 55 million free-to-embed image
 
 == SmartFrame Images: Embed editorial images for free in WordPress ==
 SmartFrame Images gives your editorial team access to over 55 million images, searchable and embeddable directly from inside the WordPress editor.
-
 No downloads. No uploads. No switching between platforms. Search for an image, click to embed, and publish – the entire workflow happens inside the CMS your team already uses.
-
 The plugin integrates the SmartFrame Images library and secure embed technology into WordPress, replacing the slow default workflow of sourcing images on external platforms, downloading files, and re-uploading them to your site.
-
 For publishers managing high volumes of editorial content, that means faster turnaround, a cleaner workflow, and images that are protected the moment they go live.
 
 == Embed over 55 million images – at no cost ==
@@ -193,3 +190,15 @@ To compile the source code yourself, you will need Node.js and npm installed.
 
 = 1.4.2 =
 * Implemented an automated background check for legacy API keys to prevent users from needing to log in again
+
+= 1.4.3 =
+* Resolved an issue with category labels not displaying correctly in the events grid
+* Corrected an issue where styles were not enqueuing properly in the Classic Editor
+* Addressed a minor bug causing false positive notices regarding the minimum WordPress version
+
+= 1.4.4 =
+* Resolved an issue where the `embed.js` URL or script tag would render as raw text above the Gutenberg block in environments with aggressive security rules (WAFs)
+* Expanded compatibility to all Custom Post Types. The SmartFrame Gutenberg block and featured image replacement functionality are now enabled globally across all post types (previously limited to standard posts)
+
+= 1.4.5 =
+* Added a direct "Settings" link on the WordPress Plugins listing page for quicker access to the plugin configuration
